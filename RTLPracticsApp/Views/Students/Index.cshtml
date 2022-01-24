@@ -1,0 +1,113 @@
+﻿
+<br />
+<br />
+
+<div ng-app="myStudent" ng-controller="myStudentController">
+    <form>
+        <div class="row">
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="add_student.Name" placeholder="Name" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="add_student.Phone" placeholder="Phone" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="add_student.Email" placeholder="Email" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <input type="button" value="Add" class="btn btn-primary" ng-click="addColumn()" />
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <input type="button" value="Add" class="btn btn-primary" ng-click="SaveBtn()" />
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">SL.</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="student in StudentList" ng-click="selStudentColumn(student,$index)">
+                            <th scope="row">{{$index +1}}</th>
+                            <td>{{student.Name}}</td>
+                            <td>{{student.Phone}}</td>
+                            <td>{{student.Email}}</td>
+                            <td>
+                                <button class="btn btn-primary" ng-click="removeBtn(student)">Remove</button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">SL</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="anItem in deptList " ng-click="SelItemEdit(anItem)" >
+                            <th scope="row">{{$index +  1}}</th>
+                            <td>{{anItem.Name}}</td>
+                            <td>{{anItem.Email}}</td>
+                            <td>{{anItem.Phone}}</td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+               
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts{
+
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/depD/student.js"></script>
+    <script src="~/Scripts/js/dirPagination.js"></script>
+    <script src="~/Scripts/js/dirPagination.js"></script>
+
+
+
+}

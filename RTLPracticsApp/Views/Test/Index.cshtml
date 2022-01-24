@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div ng-app="myApp" ng-controller="myControl">
+    <div class="col-md-2">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" ng-click="addStudent()" value="{{StudentBtn}}" />
+        </div>
+    </div>
+    <form>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="add_Student.Name" name="name" placeholder="Name" />
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="add_Student.Email" name="name" placeholder="Email" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="add_Student.Phone" name="name" placeholder="Phone" />
+                </div>
+                
+                <div class="form-group">
+                    @*<input type="text" class="form-control" ng-model="add_Dept.Name" name="name" placeholder="Department Name" />*@
+                    <select class="form-control" ng-model="ddlDepartment" ng-options="depart.Name for depart in departmentListObject track by depart.Id">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="add_order.OrderNo" name="name" placeholder="Name" />
+                </div>
+              
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" ng-click="saveBtn()" value="Save" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>SL.</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+
+                </tr>
+
+                <tbody>
+                    <tr ng-repeat="student in StudentList" ng-click="selStudent(student,$index)">
+                        <td>{{$index +1}}</td>
+                        <td>{{student.Name}}</td>
+                        <td>{{student.Email}}</td>
+                        <td>{{student.Phone}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="table table-bordered">
+                <tr>
+                    <th>SL.</th>
+                    <th>Dept Name</th>
+                </tr>
+                <tbody>
+                    <tr ng-repeat="dept in departList" ng-click="selDepartment(dept,$index)">
+                        <td>{{$index +1}}</td>
+                        <td>{{dept.Name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="table table-bordered">
+                <tr>
+                    <th>SL.</th>
+                    <th>Order</th>
+                </tr>
+                <tbody>
+                    <tr ng-repeat="order in orderList" ng-click="selOrder(order,$index)">
+                        <td>{{$index +1}}</td>
+                        <td>{{order.OrderNo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/js/test.js"></script>
+
+}
+

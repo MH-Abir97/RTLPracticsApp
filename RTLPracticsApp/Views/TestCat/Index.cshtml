@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div ng-app="myDept" ng-controller="DeptController">
+   
+    <br />
+    <form>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <select class="form-control" ng-model="ddlDepartment" ng-options="dept.Name for dept in departmentListArray track by dept.Id" ng-change="GetDepartmentChange()">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="button" ng-click="DeptSaveBtn()" class="btn btn-primary" value="Add" />
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="add_Student.Name" name="name" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="add_Student.Email" name="name" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="add_Student.Phone" name="name" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" ng-click="StudentSave()" />
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+    
+
+    
+
+    <form>
+        <div class="modal" id="deptmodal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" name="name" ng-model="add_department.Name" class="form-control" placeholder="Department" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="name" ng-model="add_department.Location" class="form-control" placeholder="Location" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" ng-click="dataSavedAll()" value="Submit" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <div class="row">
+        <form>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Form Email</label>
+                    <input name="To" class="form-control" ng-model="MailSendObject.FormEmail" placeholder="Form Email" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="Password" class="form-control" ng-model="MailSendObject.Password" placeholder="Password" />
+                </div>
+                <br />
+                <h1> Email Part</h1>
+                <div class="form-group">
+                    <label>To</label>
+                    <input name="To" class="form-control" ng-model="MailSendObject.To" placeholder="To" />
+                </div>
+                <div class="form-group">
+                    <label>Bcc Email</label>
+                    <input name="To" class="form-control" ng-model="MailSendObject.ToBCCEmail" placeholder="Bcc Email" />
+                </div>
+                <div class="form-group">
+                    <label>CC Email</label>
+                    <input name="To" class="form-control" ng-model="MailSendObject.ToCCEmail" placeholder="CC Email" />
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input name="To" class="form-control" ng-model="MailSendObject.Subject" placeholder="Subject" />
+                </div>
+                <div class="form-group">
+                    <label>Body</label>
+                    <textarea class="form-control" name="To" ng-model="MailSendObject.Body" placeholder="Body"> </textarea>
+
+                </div>
+                <div class="form-group">
+
+                    <button type="submit" ng-click="SendMail()" class="btn btn-success">Send</button>
+                </div>
+
+                @*<div class="form-group">
+            <div ng-click="dowanload()">
+
+                <a id="FileDowanLoad" href="~/File/Police.docx" class="btn btn-primary" download>Dowanload</a>
+
+
+            </div>
+
+        </div>*@
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/ListJs/listDept.js"></script>
+}
+
+

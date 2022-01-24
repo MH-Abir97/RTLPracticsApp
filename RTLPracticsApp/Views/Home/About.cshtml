@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<br />
+<br />
+<div ng-app="myApp" ng-controller="myController">
+    <div class="row">
+      
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type="number"  ng-model="timeSet" class="form-control" placeholder="Enter Time Speed" />
+            </div>
+          
+            <button ng-click="autoIncrement()" class="btn btn-success">Cout Start</button>
+
+            <p>{{count}}</p>
+
+        </div>
+        <div class="col-md-3">
+            <button ng-click="stopCounter()" class="btn btn-danger">Stop</button>
+
+        </div>
+        <div class="col-md-3">
+
+            <button ng-click="eventBtn()" class="btn btn-primary">Even</button>
+            <p>{{evenData}}</p>
+            <ul ng-repeat="x in evenData">
+                <li>SL. {{$index+1}} -- Even Number: {{x}}</li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <button ng-click="oddBtn()" class="btn btn-primary">Odd</button>
+            <p>{{oddData}}</p>
+            <ul ng-repeat="x in oddData">
+              
+                <li>SL. {{$index+1}} -- Odd Number : {{x}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var app = angular.module('myApp', []);
+        app.controller('myController', function ($scope, $http, $timeout) {
+            var timer;
+            $scope.timeSet = {};
+
+            $scope.count = 0;
+            $scope.countArray = [];
+            $scope.item = [];
+            $scope.evenData=[];
+            $scope.oddData=[];
+           
+          
+           // $scope.item.push($scope.count++);
+
+            $scope.autoIncrement = function () {
+                updateCounter();
+            }
+
+            var updateCounter = function () {
+                $scope.item.push($scope.count++);  
+                timer = $timeout(updateCounter, $scope.timeSet);
+            };
+
+            $scope.stopCounter = function () {
+                $timeout.cancel(timer);
+            };
+
+
+            $scope.eventBtn = function () {
+              
+                for (var i = 0; i <= $scope.item.length; i++) {
+                    if (i % 2 == 0) {
+                        $scope.evenData.push(i);
+                    }
+                }
+            }
+
+            $scope.oddBtn = function (data) {
+              
+                    for (var i = 0; i <= $scope.item.length; i++) {
+                        if (i % 2 != 0) {
+                            $scope.oddData.push(i);
+                        }
+                    }
+             
+            }
+        });
+
+    </script>
+}

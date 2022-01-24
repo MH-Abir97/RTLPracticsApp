@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<div ng-app="MyApp" ng-controller="MyControl">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Department
+        </div>
+        <div class="panel-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <select class="form-control" id="dlcategory" ng-model="dlcategory"   ng-options="cate.CategoryName for cate in categoryArray track by cate.CategoryId">
+                                <option value="" label="Order Select"></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control"  id="dlSubcategory" ng-model="dlSubcategory" ng-options="subCategory.SubCategoryName for subCategory in subcategoryarraylist  | filter:{CategoryId:dlcategory.CategoryId}:true track by subCategory.SubCategoryId">
+                                <option value="" label="Select Category"></option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <select class="form-control" ng-model="dllName" ng-change="n.name=dllName.name" ng-options="n.name for n in namesList track by n.id">
+                                <option value="">---Select---</option>
+                            </select>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <select class="form-control" ng-model="dllUnitPackage" ng-change="package.name=dllUnitPackage.name" ng-disabled="!dllName" ng-options="package.name for package in namesList |  filter: {id: '!' +dllName.id} track by package.id">
+                                <option value="">---Select---</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control" ng-disabled="!dllUnitPackage" ng-model="dllUnitsItem" ng-options="unit.name for unit in namesList | filter:{id: '!'+dllName.id} | filter :{id:'!'+dllUnitPackage.id} track by unit.id">
+                                <option value="">---Select---</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" ng-disabled="!dllUnitsItem" ng-model="dllUnitsContainer" ng-change="container.name=dllUnitsContainer.name" ng-options="container.name for container in namesList | filter:{id:'!'+dllName.name} | filter :{id:'!'+dllUnitPackage.id} | filter:{id:'!'+dllUnitsItem.id} track by container.id">
+                                <option value="">---Select---</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" ng-show="dllName.id==2">
+                        <label>{{dllName.name}}/Per</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter Rolls" />
+                    </div>
+                    <div class="col-md-4" ng-show="dllName.id==3">
+                        <div class="form-group">
+                            <label>{{dllName.name}}/Per/PC</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Rolls" />
+                        </div>
+
+                    </div>
+                    <div class="col-md-4" ng-show="dllName.id==4">
+                        <div class="form-group">
+                            <label>{{dllName.name}}/KG</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Rolls" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{dllName.name}}/Per</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Rolls" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" ng-show="dllUnitsContainer.id==4">
+                        <div class="form-group">
+                            <label>{{dllUnitsContainer.name}}/KG</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Rolls" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{dllUnitsContainer.name}}/Per</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Rolls" />
+                        </div>
+                    </div>
+
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>
+                                    <button type="button" class="btn btn-primary" ng-click="addBtn()">Add</button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in addBtnArray">
+                                <td>
+                                    <div class="form-group">
+                                        <input ng-model='item' id='item-{{$index}}' class='input-{{$index}}' />
+                                        <button ng-click='del($index)'>DEL</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                   
+
+                </div>
+            </form>
+        </div>
+      
+
+    </div>
+    
+
+</div>
+
+
+@section Scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script>
+        var app = angular.module('MyApp', []);
+
+        app.controller('MyControl', function ($scope, $http) {
+
+            Clear();
+            function Clear() {
+                $scope.addBtnArray = [];
+
+                $scope.categoryArray = [];
+                $scope.subCategoryArrayList = [];
+                $scope.dlcategory = null;
+                $scope.dlSubcategory = null;
+
+
+                $scope.dllName = null;
+                $scope.dllUnitPackage = null;
+                $scope.dllUnitsItem = null;
+                $scope.dllUnitsContainer = null;
+
+
+                $scope.namesList = [
+                    { id: 1, name: "PC" },
+                    { id: 2, name: "Rolls" },
+                    { id: 3, name: "Carton" },
+                    { id: 4, name: "Units" },
+                ]
+                $scope.newitem = '';
+               
+               // getAllSubCategory();
+                getItem();
+                getallsubcategory();
+            }
+
+
+            //$scope.RefreshDepartmentDdl = function (CategoryId) {
+            //    $scope.subCategoryArrayList = [];
+            //    GetAllActiveDepartmentByBranchId(CategoryId, null);
+
+            //}
+            
+            //function GetAllActiveDepartmentByBranchId(CategoryId, SubCategoryId) {
+            //    $http({
+            //        url: '/Items/GetAllActiveByBranchId?CategoryId=' + CategoryId + '&SubCategoryId=' + SubCategoryId,
+            //        method: 'GET',
+            //        headers: { 'Content-Type': 'application/json' }
+            //    }).then(function (data) {
+            //        $scope.subCategoryArrayList = data;
+            //    });
+            //}
+            //$scope.BindUserBranch = function (CategoryId) {
+            //    BindUserBranch(CategoryId);
+            //}
+            //function BindUserBranch() {
+               
+            //   // $scope.dlcategory = null;
+             
+            //}
+
+            function getallsubcategory() {
+                $http({
+                    url: "/items/getSubCategoryList",
+                    method: "get",
+                    headers: { 'content-type': 'application/json' }
+                }).then(function (data) {
+                    $scope.subcategoryarraylist = data;
+                    console.log($scope.subcategoryarraylist);
+                });
+            }
+
+
+
+          
+          //  $scope.subcategoryArray = [];
+
+
+
+           
+            $scope.addBtn = function () {
+               // $scope.addBtnArray.push({});
+                if ($scope.addBtnArray.length < 4) {
+                    $scope.addBtnArray.push($scope.newitem);
+                }
+            }
+            $scope.del = function (i) {
+                $scope.items.splice(i, 1);
+            }
+
+           
+
+        
+            //getSubCategory();
+            function getItem() {
+                $http({
+                    url: "/Items/getCategoryList",
+                    method: "GET",
+                    headers: {'Content-Type':'application/json'}
+                }).then(function (response) {
+                    $scope.categoryArray = response.data;
+                });
+            }
+
+            //function getSubCategory() {
+            //    $http({
+            //        url: "/Items/getSubCategoryList",
+            //        method: "GET",
+            //        headers: { 'Content-Type': 'application/json' }
+            //    }).then(function (response) {
+            //        $scope.subcategoryArray = response.data;
+            //    });
+            //}
+        });
+    </script>
+}
+
+
+
+
+
+
+
+

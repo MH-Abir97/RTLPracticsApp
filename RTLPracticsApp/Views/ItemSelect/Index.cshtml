@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<br />
+<div ng-app="MyApp" ng-controller="MyControl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Select Item</div>
+                <div class="panel-body">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                        <input  type="checkbox" name="name" ng-model="selectAll" ng-click="checkAllBtn()" class="btn btn-primary" />Select All /UnSelect All
+                                </th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Order Number</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in itemList" >
+                                <td scope="row">
+                                    <input type="checkbox" ng-model="selected" name="name" ng-checked="exists(x)" ng-click="toggleSelection(x)" />
+                                </td>
+                                <td scope="row">{{x.ItemName}}</td>
+                                <td scope="row">{{x.OrderNo}}</td>
+                                <td scope="row">{{x.Quantity}}</td>
+                                <td scope="row">{{x.Price}}</td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="panel-footer">
+                    <div class="text-right">
+                        <button type="button" class="btn btn-primary" ng-click="addBtn()">Add</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Select Item</div>
+                <div class="panel-body">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">
+                                    Name
+                                </th>
+                                <th scope="col">Order Number</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in selected">
+                                <th scope="row">{{item.Id}}</th>
+
+                                <td scope="row">{{item.ItemName}}</td>
+                                <td scope="row">{{item.OrderNo}}</td>
+                                <td scope="row">{{item.Quantity}}</td>
+                                <td scope="row">{{item.Price}}</td>
+                                <td scope="row">{{item.Quantity * item.Price }}</td>
+                                <td scope="row">
+                                    <button ng-click="removeBtn(item.id)" class="btn btn-danger">Remove</button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            @*<p ng-repeat="item in selected">{{item.name}}</p>*@
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script>
+        var app = angular.module('MyApp', []);
+
+        app.controller('MyControl', function ($scope, $http) {
+
+            $scope.selected = [];
+            $scope.selectAll = {};
+            $scope.itemList = [];
+            getItemList();
+
+            $scope.exists = function (item) {
+                return $scope.selected.indexOf(item) > -1;
+            }
+
+
+            $scope.toggleSelection = function (item) {
+                var index = $scope.selected.indexOf(item);
+                if (index > -1) {
+                    $scope.selected.splice(index,1);
+                }
+                else {
+                    $scope.selected.push(item);
+                }
+            }
+
+
+            $scope.checkAllBtn = function () {
+
+                if ($scope.selectAll) {
+                    angular.forEach($scope.itemList, function (item) {
+                        var indx = $scope.selected.indexOf(item);
+                        if (indx >= 0) {
+                            return true;
+                        }
+                        else {
+                            $scope.selected.push(item);
+                        }
+                    });
+
+                } else {
+                    $scope.selected=[];
+                }
+            }
+
+            //$scope.checkAllBtn = function () {
+            //    $scope.selectAll = true;
+            //}
+
+            //$scope.uncheckAll = function () {
+            //    $scope.selectAll = false;
+            //}
+            $scope.removeBtn = function (item) {
+                $scope.selected.splice(item, 1);
+            };
+
+            function getItemList() {
+                $http({
+                    method: 'GET',
+                    url: "/ItemSelect/GetData",
+                    dataType: "Json",
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function (response) {
+
+                    $scope.itemList = response.data;
+                });
+            }
+
+            $scope.addBtn = function () {
+                //angular.forEach($scope.itemList, function (data,index) {
+                //    $scope.selected.push(data);
+                //});
+                //console.log($scope.selected);
+            }
+        });
+    </script>
+}
+
+

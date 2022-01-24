@@ -1,0 +1,125 @@
+﻿
+<br />
+<div ng-app="MyApp" ng-controller="MyControl">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group">
+                <input type="button" ng-click="departModal()" class="btn btn-primary" value="Add" />
+            </div>
+
+        </div>
+    </div>
+    
+
+    <form>
+        <div class="row">
+
+            <div class="col-md-4">
+
+                <div>
+                    <div class="form-group">
+                        <label>{{name}}</label>
+                        <input type="text" ng-model="addDept.Name" id="tbxPolicy" class="form-control" />
+                        <input type="text" id="tbxPolicyHidden" style="display:none;" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="submit" value="Add" class="btn btn-primary" ng-click="AddColum()" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-dark table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">SL.</th>
+                            <th scope="col">Name</th>
+
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="dept in departmentList" ng-click="selDepartment(dept,$index)">
+                            @*<th scope="row" ng-click="selDepartment(dept.SlNo)">{{}}</th>*@
+                            <td>{{$index +1 }}</td>
+                            <td>{{dept.Name}}</td>
+                            <td>
+                                <button class="btn btn-danger" ng-click="remove(dept)">Remove</button>
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary" ng-click="btnSave()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-dark table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">SL.</th>
+                            <th scope="col">Name</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="dept in deptListItemTable" ng-click="addEdit(dept)">
+                            <td>{{$index + 1 }}</td>
+                            <td>{{dept.Name}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </form>
+
+    <form>
+        <div class="modal" id="deptmodal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" name="name" ng-model="add_department.Name" class="form-control" placeholder="Department" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" ng-click="dataSavedAll()" value="Submit" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+</div>
+@section Scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script src="~/Scripts/depD/depDItem.js"></script>
+}
+

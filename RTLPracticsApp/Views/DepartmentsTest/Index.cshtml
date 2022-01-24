@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<br />
+
+
+@* Load bootstrap css *@
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css" />
+@* load angularjs library & lodash js *@
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+@* load our js ("MyApp" here) file and angularjs-dropdown-multiselect directive *@
+
+
+<script src="~/Scripts/angularjs-dropdown-multiselect.js"></script>
+@* HTML Code *@
+
+@* I have added some css here for looks good *@
+<style>
+    .body-content {
+        padding-top: 50px
+    }
+
+    .checkbox {
+        padding: 0;
+        margin: 0;
+    }
+
+    .dropdown-menu {
+        overflow: auto !important;
+    }
+
+    .form-group div {
+        display: inline-block;
+        margin-right: 10px
+    }
+</style>
+
+<div ng-app="MyApp" ng-controller="multiselectdropdown">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Drop Down</div>
+        <div class="panel-body">
+            <form class="form-inline" name="myForm" role="form">
+                <div class="form-group">
+                    <div ng-dropdown-multiselect="" extra-settings="dropdownSetting"
+                         options="Categories" selected-model="CategoriesSelected" checkboxes="true"></div>
+                </div>
+                <button type="submit" class="btn btn-primary" ng-click="SubmitData()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Dropdown List</div>
+        <div class="panel-body">
+            <div ng-if="SubmittedCategories.length > 0">
+                <table class="table table-responsive table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cat in SubmittedCategories">
+                            <td>{{cat.Id}}</td>
+                            <td>{{cat.Name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+  
+    <script src="~/Scripts/dep.js"></script>
+
+}

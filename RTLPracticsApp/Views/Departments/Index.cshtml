@@ -1,0 +1,198 @@
+﻿@*@{
+        ViewBag.Title = "Index";
+    }
+    <br />
+    <div ng-app="MyApp" ng-controller="MyControl">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Department
+            </div>
+            <form>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="dep.Name" placeholder="Name..." />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="submit" ng-click="saveData()" />
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Department List</div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">SL.</th>
+                            <th scope="col">Name</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in departmentList">
+                            <th scope="row">{{x.Id}}</th>
+                            <td>{{x.Name}}</td>
+                            <td>
+                                <button class="btn btn-danger" ng-click="deleteBtn(x.Id)">Delete</button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    @section Scripts{
+        <script src="~/Scripts/angular.min.js"></script>
+        <script>
+            var app = angular.module('MyApp', []);
+
+            app.controller('MyControl', function ($scope, $http) {
+                Clear();
+                function Clear() {
+                    $scope.departmentList = [];
+                    $scope.dep = {};
+                    getListItem();
+                }
+
+                $scope.saveData = function () {
+                    var prams = JSON.stringify({ Department: $scope.dep });
+                    $http({
+                        method: 'POST',
+                        url: '/Departments/Save',
+                        data: prams,
+                        dataType: "Json",
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(function (response) {
+
+
+                    });
+                }
+
+                $scope.deleteBtn = function () {
+
+                    $http.get('/Departments/Delete?id=',+id).then(function (response) {
+                        getListItem();
+                    });
+                }
+                function getListItem() {
+
+                    $http.get('/Departments/GetData').then(function (response) {
+                        $scope.departmentList = response.data;
+                    });
+                }
+
+
+            });
+        </script>
+    }*@
+
+
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Scripts/js/jquery-ui.theme.min.css" rel="stylesheet" />
+<link href="~/Scripts/js/jquery-ui.theme.css" rel="stylesheet" />
+<link href="~/Scripts/js/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Scripts/js/jquery-ui.structure.min.css" rel="stylesheet" />
+<link href="~/Scripts/js/jquery-ui.css" rel="stylesheet" />
+<style>
+    /*#sortable1, #sortable2 {
+        border: 1px solid #eee;
+        width: 142px;
+        min-height: 20px;
+        list-style-type: none;
+        margin: 0;
+        padding: 5px 0 0 0;
+        float: left;
+        margin-right: 10px;
+    }
+
+        #sortable1 li, #sortable2 li {
+            margin: 0 5px 5px 5px;
+            padding: 5px;
+            font-size: 1.2em;
+            width: 120px;
+        }*/
+</style>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-bordered table-hover connectedSortable" id="sortable2">
+            <thead>
+                <tr>
+                    <th>SL.</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>1</th>
+                    <td>Cherry</td>
+                    <td>10</td>
+                </tr>
+
+            </tbody>
+        </table>
+       
+    </div>
+
+    <div class="col-md-6">
+        <table class="table table-bordered table-hover connectedSortable" id="sortable1">
+            <thead>
+                <tr>
+                    <th>SL.Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr >
+                    <th>1</th>
+                    <td>Abir</td>
+                    <td>info@gmail.com</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+@section Scripts {
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script src="~/Scripts/js/jquery-ui.js"></script>
+    <script src="~/Scripts/js/jquery-ui.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#sortable1, #sortable2").sortable({
+                connectWith: ".connectedSortable"
+            }).disableSelection();
+        });
+    </script>
+
+
+
+
+
+}
